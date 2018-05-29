@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 41414",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -22,7 +22,11 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "core-js": "^2.4.1",
+    "jquery": "^3.3.1",
     "rxjs": "^5.5.6",
+    "simple-peer": "^9.0.0",
+    "toastr": "^2.1.4",
+    "webrtc-adapter": "^6.2.1",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
