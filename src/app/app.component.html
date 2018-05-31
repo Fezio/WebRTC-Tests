@@ -1,21 +1,30 @@
-<div>
-  <video #audio controls autoplay></video>
-  <br/> MY DATA
-  <br/>
-  <textarea #data disabled type="text"></textarea>
-  <br/> REMOTE DATA
-  <br/>
-  <textarea #connect type="text"></textarea>
-  <br/>
-  <button (click)="makeConnect()">connect</button>
-  <button (click)="clear()">clear</button>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <video height="100%" width="100%" #audio controls autoplay></video>
+    </div>
+    <div class="col">
+      <div>
+        <div>MY DATA</div>
+        <textarea #data disabled type="text"></textarea>
+      </div>
+      <div>
+        <div>REMOTE DATA</div>
+        <textarea #connect type="text"></textarea>
+      </div>
+      <div>
+        <button (click)="captureScreen()">capture screen</button>
+        <button (click)="stopCapturing()">stop capturing</button>
+        <button (click)="makeConnect()">connect</button>
+        <button (click)="clear()">clear</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col text-center">
+      <div>MY SCREEN</div>
+      <video muted #myScreen></video>
+    </div>
+  </div>
 </div>
-<!-- <div>
-  <video #video2 controls autoplay></video>
-  <br/>
-  <textarea #data2 type="text"></textarea>
-  <button (click)="getData()">get data</button>
-  <br/>
-  <input type="text">
-  <button (click)="connect(2)">connect</button>
-</div> -->

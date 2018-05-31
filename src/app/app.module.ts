@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
+import { ScreenCaptureService } from './services/screen-capture.service';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,9 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [
+    ScreenCaptureService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
