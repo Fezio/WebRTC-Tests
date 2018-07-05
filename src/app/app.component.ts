@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   @ViewChild('data') data: ElementRef;
   @ViewChild('connect') connect: ElementRef;
   @ViewChild('myScreen') myScreen: ElementRef;
+  @ViewChild('init') init: ElementRef;
 
   private peer: Peer;
   public stream: MediaStream;
@@ -23,6 +24,46 @@ export class AppComponent implements OnInit {
   ) {
     this.peer = null;
     this.stream = null;
+  }
+
+  getDevices() {
+    return new Promise<any>((resolve, reject) => {
+      navigator.mediaDevices.getUserMedia({
+        audio: true
+      })
+        .then(stream => {
+          this.peer = new Peer({
+            initiator: this.init.nativeElement.checked,
+            trickle: true,
+            streams: [stream]
+          });
+
+          this.peer
+            .on('signal', data => {
+              if (!data.renegotiate) {
+                this.data.nativeElement.value += JSON.stringify(data) + '\n\n';
+              }
+            })
+            .on('stream', stream => {
+              console.log('onstream', stream);
+              this.audio.nativeElement.srcObject = stream;
+            })
+            .on('track', (track, stream) => {
+              console.log('ontrack', track, stream);
+            })
+            .on('connect', () => {
+              console.log('CONNECT!');
+            })
+            .on('error', error => {
+              console.error(error);
+            });
+
+          resolve(this.peer);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 
   captureScreen() {
@@ -35,9 +76,8 @@ export class AppComponent implements OnInit {
               navigator.getUserMedia(
                 constraints,
                 stream => {
-                  this.peer.addTrack(stream.getVideoTracks()[0], this.stream);
-                  // console.log(this.stream.getTracks());
-                  // console.log(this.peer.stream.getTracks());
+                  this.peer.addTrack(stream.getVideoTracks()[0], this.peer.streams[0]);
+                  console.log(this.peer);
 
                   this.myScreen.nativeElement.srcObject = stream;
                   this.myScreen.nativeElement.muted = true;
@@ -71,44 +111,21 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    navigator.getUserMedia({
-      audio: true
-    },
-      stream => {
-        this.stream = stream;
-        this.peer = new Peer({
-          initiator: location.hash === '#init',
-          trickle: false,
-          stream: this.stream,
-        });
-
-        this.getData();
-      },
-      error => {
-        console.error(error);
-      });
-  }
-
-  getData() {
-    this.data.nativeElement.value = '';
-    this.peer
-      .on('signal', data => {
-        this.data.nativeElement.value += JSON.stringify(data);
-      })
-      .on('stream', stream => {
-        console.log('onstream', stream);
-        this.audio.nativeElement.srcObject = stream;
-      })
-      .on('track', (track, stream) => {
-        console.log('ontrack', track, stream);
-      })
-      .on('error', error => {
-        console.error(error);
-      });
+    // this.getDevices();
   }
 
   makeConnect() {
-    this.peer.signal(this.connect.nativeElement.value);
+    if (this.peer) {
+      const signals = this.connect.nativeElement.value.split('\n\n');
+      console.log(signals);
+      signals.forEach(signal => {
+        if (signal) {
+          this.peer.signal(signal);
+        }
+      });
+    } else {
+      alert('Нажми "get devices"');
+    }
   }
 
   clear() {

@@ -5,6 +5,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 41414",
+    "start_ssl": "ng serve --host 0.0.0.0 --port 41414 --ssl true --ssl 1 --ssl-key cert/privatekey.txt --ssl-cert cert/trple.crt --live-reload false",
+    "start_ssl_self": "ng serve --host 0.0.0.0 --port 41414 --ssl true --ssl 1 --ssl-key cert/privkey1.pem --ssl-cert cert/fullchain1.pem --live-reload false",
+    "start_ssl_self_new": "ng serve --port 41414 --ssl true --ssl 1 --ssl-key new_cert/server.key --ssl-cert cert/server.crt --live-reload false",    
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -25,7 +28,7 @@
     "core-js": "^2.4.1",
     "jquery": "^3.3.1",
     "rxjs": "^5.5.6",
-    "simple-peer": "^9.0.0",
+    "simple-peer": "^9.1.2",
     "toastr": "^2.1.4",
     "webrtc-adapter": "^6.2.1",
     "zone.js": "^0.8.19"

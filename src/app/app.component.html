@@ -6,15 +6,17 @@
     <div class="col">
       <div>
         <div>MY DATA</div>
-        <textarea #data disabled type="text"></textarea>
+        <textarea #data type="text"></textarea>
       </div>
       <div>
         <div>REMOTE DATA</div>
         <textarea #connect type="text"></textarea>
       </div>
       <div>
-        <button (click)="captureScreen()">capture screen</button>
-        <button (click)="stopCapturing()">stop capturing</button>
+        init: <input #init type="checkbox">
+        <button (click)="getDevices()">get devices</button>
+        <!-- <button (click)="captureScreen()">capture screen</button>
+        <button (click)="stopCapturing()">stop capturing</button> -->
         <button (click)="makeConnect()">connect</button>
         <button (click)="clear()">clear</button>
       </div>
